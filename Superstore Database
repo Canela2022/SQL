@@ -1,0 +1,17 @@
+--order items by price
+
+SELECT item_name, price
+FROM superstore
+ORDER BY price;
+
+--avg of item prices
+
+SELECT item_name, AVG(price)
+FROM superstore
+GROUP BY item_name;
+
+--avg kitchen supplies
+
+SELECT 'Kitchen Supplies', AVG(price)
+FROM superstore
+GROUP BY 'Kitcehn Supplies';
