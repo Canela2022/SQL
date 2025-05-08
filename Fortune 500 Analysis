@@ -1,0 +1,46 @@
+SELECT *
+FROM fortune_companies;
+
+SELECT company_name,industry, maternity_leave_weeks
+FROM fortune_companies
+;
+
+--Give me the company where industry=Retail and is also giving 7 weeks of maternity leave.
+
+SELECT*
+FROM fortune_companies
+WHERE industry= 'Retail'
+AND maternity_leave_weeks=7
+;
+
+--write a SQL query to calculate the revenure per employee for each company, and name it revenue_per_employee. Round to the 6 decimal point and order the data from desc order. only include companies that have >5000 employees
+
+SELECT 
+company_name, 
+industry, 
+revenue, 
+employees, ROUND(revenue/employees,6) AS revenue_per_employee
+FROM fortune_companies
+WHERE employees>5000
+ORDER BY revenue_per_employee DESC
+;
+
+--when revenue <300 then 'broke'
+
+SELECT 
+company_name,
+industry,
+revenue, 
+CASE WHEN revenue < 300 THEN 'broke'
+ELSE 'not broke'
+END AS 'revenue_bracket'
+FROM fortune_companies
+;
+
+--find SUM of revenue for any compnay that is greater than 20000
+
+SELECT industry, SUM(revenue) AS revenue
+FROM fortune_companies
+GROUP BY industry
+HAVING SUM(revenue) > 2000
+;
