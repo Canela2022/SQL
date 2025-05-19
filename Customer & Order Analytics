@@ -1,0 +1,86 @@
+SELECT * FROM BIT_DB.customers LIMIT 20
+
+SELECT *
+FROM BIT_DB.JanSales
+;
+
+--How many orders were placed in Jan?
+
+
+SELECT COUNT (distinct orderid)
+FROM BIT_DB.JanSales
+WHERE length(orderid)=6
+AND order_id <> 'Order ID;
+;
+
+
+
+--HOw many of those orders were iPHones?
+
+SELECT COUNT(distinct orderid)
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID'
+AND product like '%iPhone%'
+;
+
+SELECT *
+FROM BIT_DB.FebSales
+;
+
+SELECT *
+FROM customers
+;
+
+--Select the customer account numbers for all the orders that were placed in Feb
+SELECT DISTINCT acctnum
+FROM BIT_DB.FebSales
+JOIN customers
+    ON BIT_DB.FebSales.orderID= customers.order_id
+WHERE length (BIT_DB.FebSales.orderID) = 6
+AND BIT_DB.FebSales.orderID <> 'Order ID'
+;
+
+
+--which product was the cheapest one sold in Jan, and what was the price?
+SELECT DISTINCT product, MIN (price)
+FROM BIT_DB. JanSales
+GROUP BY product, price
+ORDER BY price LIMIT 1
+; 
+
+
+--what is the total revenue for each product sold in Jan?
+SELECT DISTINCT product, sum(quantity) * price as revenue
+FROM BIT_DB. JanSales
+GROUP BY product
+; 
+
+
+--which products were sold in Feb at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+
+select 
+SELECT Product, sum(Quantity), sum(quantity) * price as revenue, location
+FROM BIT_DB.FebSales
+WHERE location LIKE '%548 Lincoln St, Seattle, WA 98101%'
+GROUP BY product
+;
+
+--How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers? 
+
+SELECT COUNT( cust.acctnum), AVG (quantity * price) 
+FROM BIT_DB.FebSales AS FebSales
+JOIN BIT_DB.customers AS cust
+    ON FebSales.orderid = cust.order_id
+WHERE  FebSales.Quantity>2
+AND length(orderid)=6
+AND orderid<> 'Order ID'
+;
+
+--List all the products sold in Los Angelas in Feb, and include how many of each were sold.
+
+SELECT Product, SUM(quantity) 
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY Product
+;
